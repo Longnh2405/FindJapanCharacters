@@ -1,0 +1,16 @@
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\bin\Debug\net9.0-windows\FindJapanCharacters.exe
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\bin\Debug\net9.0-windows\FindJapanCharacters.deps.json
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\bin\Debug\net9.0-windows\FindJapanCharacters.runtimeconfig.json
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\bin\Debug\net9.0-windows\FindJapanCharacters.dll
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\bin\Debug\net9.0-windows\FindJapanCharacters.pdb
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.Form1.resources
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.csproj.GenerateResource.cache
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.AssemblyInfoInputs.cache
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.AssemblyInfo.cs
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.csproj.CoreCompileInputs.cache
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.dll
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\refint\FindJapanCharacters.dll
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.pdb
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\FindJapanCharacters.genruntimeconfig.cache
+C:\Users\longn\Source\Repos\FindJapanCharacters\FindJapanCharacters\obj\Debug\net9.0-windows\ref\FindJapanCharacters.dll
