@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FindJapanCharacters")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1bce4569f3630596f01efafab9ec3adbd163ff4a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b228ea258123898b34308e9eed6a6c9db7ec1be2")]
 [assembly: System.Reflection.AssemblyProductAttribute("FindJapanCharacters")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FindJapanCharacters")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

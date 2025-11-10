@@ -16,17 +16,22 @@ namespace FindJapanCharacters
     @"[\u3040-\u309F\u30A0-\u30FF\u31F0-\u31FF\uFF65-\uFF9F\u3400-\u4DBF\u4E00-\u9FFF]",
     RegexOptions.Compiled);
 
+        string _lastFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // mặc định lần đầu
         private void button1_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Chọn file Excel";
                 openFileDialog.Filter = "Excel files (*.xlsx;*.xlsm)|*.xlsx;*.xlsm|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = @"C:\";
+                openFileDialog.InitialDirectory = _lastFolder; // 💡 mở lại folder trước đó
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     _excelPath = openFileDialog.FileName;
+
+                    // ✅ Lưu lại folder hiện tại để lần sau mở lại ở đây
+                    _lastFolder = Path.GetDirectoryName(_excelPath)!;
+
                     richTextBox1.Clear();
                     richTextBox1.AppendText("Đã chọn: " + _excelPath + Environment.NewLine);
                 }
