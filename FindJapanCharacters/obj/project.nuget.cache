@@ -1,8 +1,17 @@
 {
   "version": 2,
-  "dgSpecHash": "lv1g/+kJ/2w=",
+  "dgSpecHash": "0zf+mSbGHHo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\longn\\Source\\Repos\\FindJapanCharacters\\FindJapanCharacters\\FindJapanCharacters.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\longn\\source\\repos\\FindJapanCharacters\\FindJapanCharacters\\FindJapanCharacters.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\longn\\.nuget\\packages\\closedxml\\0.105.0\\closedxml.0.105.0.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\closedxml.parser\\2.0.0\\closedxml.parser.2.0.0.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\documentformat.openxml\\3.1.1\\documentformat.openxml.3.1.1.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\documentformat.openxml.framework\\3.1.1\\documentformat.openxml.framework.3.1.1.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\excelnumberformat\\1.1.0\\excelnumberformat.1.1.0.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\rbush.signed\\4.0.0\\rbush.signed.4.0.0.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\sixlabors.fonts\\1.0.0\\sixlabors.fonts.1.0.0.nupkg.sha512",
+    "C:\\Users\\longn\\.nuget\\packages\\system.io.packaging\\8.0.1\\system.io.packaging.8.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
