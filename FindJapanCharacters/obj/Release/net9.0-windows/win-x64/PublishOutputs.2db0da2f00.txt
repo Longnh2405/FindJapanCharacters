@@ -1,0 +1,2 @@
+C:\Users\longn\source\folder build\FindJapanCharacters.pdb
+C:\Users\longn\source\folder build\FindJapanCharacters.exe
