@@ -124,10 +124,13 @@ namespace FindJapanCharacters
                 foreach (var cell in ws.CellsUsed())
                 {
                     string text = cell.Value.ToString() ?? string.Empty;
-                    if (ContainsNonJapanese(text))
+                    var nonJpChars = FindNonJapaneseChars(text).Distinct().ToList();
+                    if (nonJpChars.Count > 0)
                     {
                         hit++;
-                        sb.AppendLine($"{hit,4}. Sheet={ws.Name} | Ô={cell.Address}");
+                        string charsInfo = string.Join(" ",
+                            nonJpChars.Select(c => $"'{c}'"));
+                        sb.AppendLine($"{hit,4}. Sheet={ws.Name} | Ô={cell.Address} | Ký tự: {charsInfo}");
                     }
                 }
             }
@@ -153,10 +156,14 @@ namespace FindJapanCharacters
                 foreach (var cell in ws.CellsUsed())
                 {
                     string text = cell.Value.ToString() ?? string.Empty;
-                    if (ContainsVietnamese(text))
+                    var vietChars = FindVietnameseChars(text).Distinct().ToList();
+                    if (vietChars.Count > 0)
                     {
                         hit++;
+                        string charsInfo = string.Join(" ",
+                            vietChars.Select(c => $"'{c}'"));
                         sb.AppendLine($"{hit,4}. Sheet={ws.Name} | Ô={cell.Address}");
+                        //sb.AppendLine($"{hit,4}. Sheet={ws.Name} | Ô={cell.Address} | Ký tự: {charsInfo}");
                     }
                 }
             }
@@ -182,31 +189,61 @@ namespace FindJapanCharacters
             return JapaneseRegex.IsMatch(s);
         }
 
-        // Ký tự KHÁC tiếng Nhật: có ký tự non-ASCII nhưng không match JapaneseRegex
-        private static bool ContainsNonJapanese(string? s)
+        // Các ký hiệu tiếng Nhật / CJK muốn bỏ qua
+        private static readonly HashSet<char> JapanesePunctuation = new HashSet<char>
+{
+    '、', '。', '「', '」', '『', '』', '【', '】',
+    '（', '）', '［', '］', '｛', '｝',
+    '〈', '〉', '《', '》', '・', 'ー', '〜',
+    '！', '？',
+    '々', // ký tự lặp tiếng Nhật – bỏ qua
+    '〇'   // vòng tròn dùng trong câu ví dụ, đáp án đúng, v.v.
+};
+
+        private static IEnumerable<char> FindNonJapaneseChars(string? s)
         {
-            if (string.IsNullOrEmpty(s)) return false;
+            if (string.IsNullOrEmpty(s)) yield break;
 
             foreach (var ch in s)
             {
-                // Bỏ qua số (vì tiếng Nhật cũng dùng 0-9)
+                if (char.IsSurrogate(ch))
+                    continue;
+
                 if (char.IsDigit(ch))
                     continue;
 
-                // Nếu không phải ký tự tiếng Nhật thì trả về true
-                if (!JapaneseRegex.IsMatch(ch.ToString()))
-                    return true;
-            }
+                if (char.IsWhiteSpace(ch) || char.IsControl(ch))
+                    continue;
 
-            return false;
+                if (char.IsPunctuation(ch) || char.IsSymbol(ch) || JapanesePunctuation.Contains(ch))
+                    continue;
+
+                if (JapaneseRegex.IsMatch(ch.ToString()))
+                    continue;
+
+                yield return ch;
+            }
         }
 
+        private static bool ContainsNonJapanese(string? s)
+        {
+            return FindNonJapaneseChars(s).Any();
+        }
 
+        private static IEnumerable<char> FindVietnameseChars(string? s)
+        {
+            if (string.IsNullOrEmpty(s)) yield break;
+
+            foreach (var ch in s)
+            {
+                if (VietnameseRegex.IsMatch(ch.ToString()))
+                    yield return ch;
+            }
+        }
 
         private static bool ContainsVietnamese(string? s)
         {
-            if (string.IsNullOrEmpty(s)) return false;
-            return VietnameseRegex.IsMatch(s);
+            return FindVietnameseChars(s).Any();
         }
 
         private void label1_Click(object sender, EventArgs e)
