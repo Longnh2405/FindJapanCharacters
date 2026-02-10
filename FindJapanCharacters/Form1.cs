@@ -8,6 +8,8 @@ namespace FindJapanCharacters
     public partial class Form1 : Form
     {
         private readonly Random _rand = new Random(); // thêm dòng này
+        private List<string> _excelPaths = new List<string>();
+
         public Form1()
         {
             InitializeComponent();
@@ -26,39 +28,54 @@ namespace FindJapanCharacters
 
         string _lastFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // mặc định lần đầu
 
+        // Sửa lại button1_Click để chọn nhiều file:
         private void button1_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Chọn file Excel";
                 openFileDialog.Filter = "Excel files (*.xlsx;*.xlsm)|*.xlsx;*.xlsm|All files (*.*)|*.*";
-                openFileDialog.InitialDirectory = _lastFolder; // 💡 mở lại folder trước đó
+                openFileDialog.InitialDirectory = _lastFolder;
+                openFileDialog.Multiselect = true; // ✅ CHỌN NHIỀU FILE
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    _excelPath = openFileDialog.FileName;
+                    _excelPaths = openFileDialog.FileNames.ToList();
+                    _excelPath = _excelPaths.FirstOrDefault(); // giữ tương thích chỗ cũ nếu còn dùng
 
-                    // ✅ Lưu lại folder hiện tại để lần sau mở lại ở đây
-                    _lastFolder = Path.GetDirectoryName(_excelPath)!;
+                    // Lưu lại thư mục lần mở sau
+                    _lastFolder = Path.GetDirectoryName(_excelPaths[0])!;
 
                     richTextBox1.Clear();
-                    richTextBox1.AppendText("Đã chọn: " + _excelPath + Environment.NewLine);
+                    richTextBox1.AppendText("Đã chọn:\r\n");
+                    foreach (var p in _excelPaths)
+                        richTextBox1.AppendText(" - " + p + Environment.NewLine);
                 }
             }
         }
 
-
-        private void ProcessFile(string filePath)
+        // Tiện ích: lấy danh sách file đã chọn (ưu tiên _excelPaths, fallback từ richTextBox1)
+        private List<string> GetSelectedPaths()
         {
-            richTextBox1.Text = filePath;
+            if (_excelPaths != null && _excelPaths.Count > 0)
+                return _excelPaths;
+
+            // fallback: tách theo dòng nếu user paste nhiều path vào richTextBox1
+            var lines = richTextBox1.Text
+                .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .Where(File.Exists)
+                .ToList();
+
+            return lines;
         }
 
+
+        // Sửa button2_Click: quét ký tự tiếng Nhật cho TẤT CẢ file đã chọn
         private void button2_Click(object sender, EventArgs e)
         {
-            // Tìm ký tự tiếng Nhật
-            var path = string.IsNullOrWhiteSpace(_excelPath) ? richTextBox1.Text.Trim() : _excelPath;
-
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            var paths = GetSelectedPaths();
+            if (paths.Count == 0)
             {
                 MessageBox.Show("Chưa có đường dẫn file hợp lệ. Hãy chọn file trước.",
                                 "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -67,8 +84,12 @@ namespace FindJapanCharacters
 
             try
             {
-                var report = ScanExcelEvenIfLocked(path);
-                richTextBox1.AppendText("\r\n" + report);
+                foreach (var path in paths)
+                {
+                    var report = ScanExcelEvenIfLocked(path);
+                    richTextBox1.AppendText("\r\n==== FILE: " + path + " ====\r\n");
+                    richTextBox1.AppendText(report + "\r\n");
+                }
             }
             catch (Exception ex)
             {
@@ -469,12 +490,11 @@ namespace FindJapanCharacters
         }
 
 
+        // Sửa button3_Click: quét ký tự KHÁC tiếng Nhật cho TẤT CẢ file
         private void button3_Click(object sender, EventArgs e)
         {
-            // Tìm ký tự khác tiếng Nhật
-            var path = string.IsNullOrWhiteSpace(_excelPath) ? richTextBox1.Text.Trim() : _excelPath;
-
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            var paths = GetSelectedPaths();
+            if (paths.Count == 0)
             {
                 MessageBox.Show("Chưa có đường dẫn file hợp lệ. Hãy chọn file trước.",
                                 "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -483,8 +503,12 @@ namespace FindJapanCharacters
 
             try
             {
-                var report = ScanExcelNonJapanese(path);
-                richTextBox1.AppendText("\r\n" + report);
+                foreach (var path in paths)
+                {
+                    var report = ScanExcelNonJapanese(path);
+                    richTextBox1.AppendText("\r\n==== FILE: " + path + " ====\r\n");
+                    richTextBox1.AppendText(report + "\r\n");
+                }
             }
             catch (Exception ex)
             {
@@ -493,12 +517,11 @@ namespace FindJapanCharacters
             }
         }
 
+        // Sửa button4_Click: quét ký tự tiếng Việt có dấu cho TẤT CẢ file
         private void button4_Click(object sender, EventArgs e)
         {
-            // Tìm ký tự tiếng Việt
-            var path = string.IsNullOrWhiteSpace(_excelPath) ? richTextBox1.Text.Trim() : _excelPath;
-
-            if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            var paths = GetSelectedPaths();
+            if (paths.Count == 0)
             {
                 MessageBox.Show("Chưa có đường dẫn file hợp lệ. Hãy chọn file trước.",
                                 "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -507,8 +530,12 @@ namespace FindJapanCharacters
 
             try
             {
-                var report = ScanExcelVietnamese(path);
-                richTextBox1.AppendText("\r\n" + report);
+                foreach (var path in paths)
+                {
+                    var report = ScanExcelVietnamese(path);
+                    richTextBox1.AppendText("\r\n==== FILE: " + path + " ====\r\n");
+                    richTextBox1.AppendText(report + "\r\n");
+                }
             }
             catch (Exception ex)
             {
